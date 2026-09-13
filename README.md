@@ -1,7 +1,7 @@
 # TaskFlow API
 
 A small Spring Boot REST API for managing tasks: list, read, create, update,
-delete, mark as complete, and an AI-generated plain-English summary of what is
+delete, mark as complete, and a summary of what is
 done and what is pending. Tasks live in memory and the code is split into the
 controller, service, repository and model layers taught in class.
 
