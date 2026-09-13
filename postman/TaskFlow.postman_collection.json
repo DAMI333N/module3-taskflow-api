@@ -1,0 +1,129 @@
+{
+  "info": {
+    "name": "TaskFlow API",
+    "description": "Every endpoint of the TaskFlow task management API (NTU AIE Module 3). Set baseUrl if the API is not on localhost:8080.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ],
+  "item": [
+    {
+      "name": "Get all tasks",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/tasks",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "tasks"]
+        },
+        "description": "200 with a bare JSON array. Six seed tasks are present at startup."
+      }
+    },
+    {
+      "name": "Get one task",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/tasks/3",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "tasks", "3"]
+        },
+        "description": "200 with the task, 404 with an error body for an unknown id, 400 for a non-numeric id."
+      }
+    },
+    {
+      "name": "Create a task",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Wire frontend to API\",\n  \"description\": \"Replace localStorage with fetch calls.\",\n  \"status\": \"in-progress\",\n  \"priority\": \"high\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/tasks",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "tasks"]
+        },
+        "description": "201 with the created task. Only title is required; status defaults to todo and priority to medium. A blank title or an unknown status/priority is a 400."
+      }
+    },
+    {
+      "name": "Update a task",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": 3,\n  \"title\": \"Build login page\",\n  \"description\": \"Create a login form with email and password fields and basic validation.\",\n  \"status\": \"done\",\n  \"priority\": \"high\",\n  \"completed\": false\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/tasks/3",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "tasks", "3"]
+        },
+        "description": "200 with the updated task. Full replacement. status is the source of truth: this body sets status done, so completed comes back true even though the body says false."
+      }
+    },
+    {
+      "name": "Mark a task as complete",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/tasks/4/complete",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "tasks", "4", "complete"]
+        },
+        "description": "200 with the task, status done and completed true."
+      }
+    },
+    {
+      "name": "Delete a task",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/tasks/6",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "tasks", "6"]
+        },
+        "description": "200 with an empty body, 404 for an unknown id."
+      }
+    },
+    {
+      "name": "AI summary of all tasks",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "text/plain"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/tasks/summary",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "tasks", "summary"]
+        },
+        "description": "200 with a short plain-English summary. Needs OPENAI_API_KEY in the environment; without it the API answers 502."
+      }
+    }
+  ]
+}
