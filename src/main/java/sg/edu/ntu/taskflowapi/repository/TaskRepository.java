@@ -21,18 +21,28 @@ public class TaskRepository {
   // Preload the same six tasks the task-manager frontend seeds itself with,
   // so the two look identical once they are wired together (ids 1 to 6).
   public TaskRepository() {
-    save(new Task(null, "Set up project repository",
-        "Initialise a Git repo, add a .gitignore, and push the first commit.", "done", "high", true));
-    save(new Task(null, "Design database schema",
-        "Draft the ERD for the contacts and deals tables.", "done", "high", true));
-    save(new Task(null, "Build login page",
-        "Create a login form with email and password fields and basic validation.", "in-progress", "high", false));
-    save(new Task(null, "Write unit tests for reducer",
-        "Cover ADD_TASK, DELETE_TASK, and SET_FILTER with at least two cases each.", "todo", "medium", false));
-    save(new Task(null, "Update README",
-        "Add setup instructions, a screenshot, and a description of the tech stack.", "todo", "low", false));
-    save(new Task(null, "Deploy to Vercel",
-        "Connect the GitHub repo to Vercel and configure environment variables.", "todo", "medium", false));
+    save(seed("Set up project repository",
+        "Initialise a Git repo, add a .gitignore, and push the first commit.", "done", "high"));
+    save(seed("Design database schema",
+        "Draft the ERD for the contacts and deals tables.", "done", "high"));
+    save(seed("Build login page",
+        "Create a login form with email and password fields and basic validation.", "in-progress", "high"));
+    save(seed("Write unit tests for reducer",
+        "Cover ADD_TASK, DELETE_TASK, and SET_FILTER with at least two cases each.", "todo", "medium"));
+    save(seed("Update README",
+        "Add setup instructions, a screenshot, and a description of the tech stack.", "todo", "low"));
+    save(seed("Deploy to Vercel",
+        "Connect the GitHub repo to Vercel and configure environment variables.", "todo", "medium"));
+  }
+
+  private static Task seed(String title, String description, String status, String priority) {
+    Task task = new Task();
+    task.setTitle(title);
+    task.setDescription(description);
+    task.setStatus(status);
+    task.setPriority(priority);
+    task.setCompleted("done".equals(status));
+    return task;
   }
 
   // Get All (a copy, so callers cannot change the stored list by accident)
